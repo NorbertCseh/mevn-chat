@@ -21,9 +21,15 @@ So far...
 
 ## TODO
 
+- ~~Database connection~~
+- ~~Models for Users, rooms~~
+- ~~Encrypt password~~
+- ~~Endpoint for login with encrypted pw and give a session back~~
+- ~~Endpoint for register with encrypted pw~~
+- ~~Endpoint for user creation~~
 - Server side validation
 - Delete and update for users
-- Api for the room
+- ~~Endpoint for room creation~~
 - Delete and edit room
 - Add [socket.io](https://socket.io/) backend part
 - The whole frontend with vue and [socket.io](https://socket.io/)
