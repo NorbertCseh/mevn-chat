@@ -32,7 +32,7 @@ So far...
 - Ask twice for passwords, on the UI and check them to be the same in the backend also
 - Delete and update for users
 - ~~Endpoint for room creation~~
-- Delete and edit room
+- ~~Delete and edit room~~
 - Add [socket.io](https://socket.io/) backend part
 - The whole frontend with vue and [socket.io](https://socket.io/)
 - Add logger instead of console.log and throw err
