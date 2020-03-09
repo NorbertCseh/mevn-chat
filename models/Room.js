@@ -1,14 +1,13 @@
 var mongoose = require('mongoose')
 var Schema = mongoose.Schema
 
-var UserSchema = new Schema({
-  email: {
+var RoomSchema = new Schema({
+  name: {
     type: String,
     required: true
   },
-  displayName: {
-    type: String,
-    required: true
+  members: {
+    type: [Schema.type.User]
   },
   password: {
     type: String,
@@ -20,6 +19,10 @@ var UserSchema = new Schema({
   createdDate: {
     type: Date,
     default: Date.now
+  },
+  createdBy: {
+    type: Schema.type.User,
+    required: true
   }
 })
-module.exports = User = mongoose.model('users', UserSchema)
+module.exports = Room = mongoose.model('rooms', RoomSchema)

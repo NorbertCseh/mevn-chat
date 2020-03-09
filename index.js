@@ -3,11 +3,17 @@ const app = express()
 const port = 3000
 const mongoose = require('mongoose')
 const keys = require('./config/keys')
-const User = require('./models/User')
-const bcrypt = require('bcrypt')
+const bodyParser = require('body-parser')
+
+//Why do I need this, pls check it future Norbi
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
+const users = require('./api/user/UserApi')
+app.use('/api/user', users)
 
 mongoose
-  .connect(keys.mongoURI)
+  .connect(keys.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('Database connected')
   })
@@ -15,30 +21,9 @@ mongoose
     console.log(err)
   })
 
-//Database is fine
+app.use(passport.initialize())
 
-const newUser = new User({
-  email: 'email',
-  displayName: 'name',
-  avatar: 'avatar'
-})
-
-bcrypt.genSalt(10, (err, salt) => {
-  bcrypt.hash('hashMePls', salt, (err, hash) => {
-    if (err) throw err
-    newUser.password = hash
-    newUser
-      .save()
-      .then(user => console.log(user))
-      .catch(err => console.log(err))
-  })
-})
-
-// User.findOne({
-//   email: 'email'
-// })
-//   .then(user => console.log(user))
-//   .catch(err => console.log(err))
+require('./config/passport')(passport)
 
 app.get('/chat', (req, res) => res.send(''))
 
