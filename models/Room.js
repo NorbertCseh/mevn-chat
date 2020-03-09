@@ -7,7 +7,8 @@ var RoomSchema = new Schema({
     required: true
   },
   members: {
-    type: [Schema.type.User]
+    type: [Schema.Types.ObjectId],
+    ref: 'users'
   },
   password: {
     type: String,
@@ -21,7 +22,8 @@ var RoomSchema = new Schema({
     default: Date.now
   },
   createdBy: {
-    type: Schema.type.User,
+    type: Schema.Types.ObjectId,
+    ref: 'users',
     required: true
   }
 })

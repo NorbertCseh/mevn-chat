@@ -49,9 +49,9 @@ router.post('/register', (req, res) => {
             })
             newUser
               .save()
-              .then(user =>
+              .then(user => {
                 res.status(201).json({ msg: `${user.displayName} register` })
-              )
+              })
               .catch(err => console.log(err))
           }
         })
@@ -81,13 +81,16 @@ router.post('/login', (req, res) => {
               expiresIn: 3600
             },
             (err, token) => {
-              res.json({
-                success: true,
-                token: 'Bearer ' + token
-              })
+              if (err) {
+                throw err
+              } else {
+                res.status(200).json({
+                  success: true,
+                  token: 'Bearer ' + token
+                })
+              }
             }
           )
-          res.status(200).json({ msg: 'Logged in' })
         }
       })
     }
