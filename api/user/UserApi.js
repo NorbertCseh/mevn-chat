@@ -61,7 +61,7 @@ router.post('/register', (req, res) => {
 })
 
 router.post('/login', (req, res) => {
-  User.findByEmail(req.body.email).then(user => {
+  User.findOne({ email: req.body.email }).then(user => {
     if (!user) {
       res.status(400).json('Wrong email or password')
     } else {

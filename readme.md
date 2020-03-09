@@ -22,6 +22,8 @@ So far...
 ## TODO
 
 - Server side validation
+- Delete and update for users
 - Api for the room
+- Delete and edit room
 - Add [socket.io](https://socket.io/) backend part
 - The whole frontend with vue and [socket.io](https://socket.io/)
