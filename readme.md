@@ -1,5 +1,15 @@
 # Mevn Chat with socket.io
 
+## Description
+
+Chat application with rooms built with:
+
+- [MongoDB](https://www.mongodb.com/)
+- [Express](https://expressjs.com/)
+- [Vue](https://vuejs.org/)
+- [Node.js](https://nodejs.org/en/)
+- [socket.io](https://socket.io/)
+
 ## Setup
 
 1. Clone the project, edit the keys.js.example file and delete
@@ -13,5 +23,5 @@ So far...
 
 - Server side validation
 - Api for the room
-- Add socket.io backend part
-- The whole frontend with vue and socket.io
+- Add [socket.io](https://socket.io/) backend part
+- The whole frontend with vue and [socket.io](https://socket.io/)
