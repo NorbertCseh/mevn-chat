@@ -67,7 +67,7 @@ router.post('/login', (req, res) => {
     } else {
       bcrypt.compare(req.body.password, user.password, (err, result) => {
         if (err) {
-          throw err
+          res.status(400).json('Wrong email or password')
         } else {
           const payLoad = {
             id: user.id,

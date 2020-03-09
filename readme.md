@@ -1,4 +1,4 @@
-# Mevn Chat with socket.io
+# [M](https://www.mongodb.com/)[e](https://expressjs.com/)[v](https://vuejs.org/)[n](https://nodejs.org/en/) Chat with [socket.io](https://socket.io/)
 
 ## Description
 
@@ -28,8 +28,17 @@ So far...
 - ~~Endpoint for register with encrypted pw~~
 - ~~Endpoint for user creation~~
 - Server side validation
+- ~~User can join twice to any room~~
+- Ask twice for passwords, on the UI and check them to be the same in the backend also
 - Delete and update for users
 - ~~Endpoint for room creation~~
 - Delete and edit room
 - Add [socket.io](https://socket.io/) backend part
 - The whole frontend with vue and [socket.io](https://socket.io/)
+- Add logger instead of console.log and throw err
+
+### Notes for me
+
+- Do I need this '/create-room', '/delete-room' paths? Method should be enough
+- Roles would be nice to have for the rooms
+- Check the .populat part, I think we will need it later
