@@ -14,6 +14,9 @@
 
 <script>
 import Axios from 'axios'
+//import jwt from 'jwt-decode'
+import setAuthToken from '../utils/setAuthToken'
+
 export default {
   data: () => ({
     email: '',
@@ -26,8 +29,14 @@ export default {
         password: this.password
       })
         .then(res => {
-          console.log('sentt')
-          console.log(res)
+          const { token } = res.data
+          localStorage.setItem('jwtToken', token)
+          setAuthToken(token)
+          //Set isAuthenticated to true in the store
+          //deocec value should be the user, save it in the store
+
+          //const decoded = jwt(token)
+          // After decode we should get the user data and add it to the store
         })
         .catch(err => {
           console.log(err)

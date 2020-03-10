@@ -1,10 +1,17 @@
 const express = require('express')
+var cors = require('cors')
 const app = express()
 const port = 3000
 const mongoose = require('mongoose')
 const keys = require('./config/keys')
 const bodyParser = require('body-parser')
 const passport = require('passport')
+
+app.use(
+  cors({
+    origin: 'http://localhost:8080'
+  })
+)
 
 //Why do I need this, pls check it future Norbi
 app.use(bodyParser.urlencoded({ extended: false }))

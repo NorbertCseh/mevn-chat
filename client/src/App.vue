@@ -24,14 +24,18 @@
     <v-app-bar app clipped-left>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>Application</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn>
+        <router-link to="/register">Register</router-link>
+      </v-btn>
+      <v-btn>
+        <router-link to="/login">Login</router-link>
+      </v-btn>
     </v-app-bar>
 
     <v-content>
       <v-container>
-        <Login />
-      </v-container>
-      <v-container>
-        <Register />
+        <router-view></router-view>
       </v-container>
     </v-content>
 
@@ -42,16 +46,10 @@
 </template>
 
 <script>
-import Login from './views/Login'
-import Register from './views/Register'
-
 export default {
-  name: 'App',
+  name: "App",
 
-  components: {
-    Login,
-    Register
-  },
+  components: {},
   props: {
     source: String
   },
@@ -59,5 +57,5 @@ export default {
     drawer: null
   }),
   created() {}
-}
+};
 </script>

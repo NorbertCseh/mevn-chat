@@ -150,24 +150,38 @@ router.delete(
   }
 )
 
-// router.get(
-//   '/:room_id',
-//   passport.authenticate('jwt', { session: false }),
-//   (req, res) => {
-//     Room.findOne({
-//       id: req.param.id
-//     }).then(room => {
-//       if (!room) {
-//         res.status(400).json('Room does not exists')
-//       } else {
-//         if (!room.members.includes(req.user.id)) {
-//           res.status(400).json(`You are not a member of ${room.name}`)
-//         } else {
-//           res.status(200).json({ msgs: room.mes })
-//         }
-//       }
-//     })
-//   }
-// )
+router.get(
+  '/:room_id',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Room.findOne({
+      id: req.param.id
+    }).then(room => {
+      if (!room) {
+        res.status(400).json('Room does not exists')
+      } else {
+        if (!room.members.includes(req.user.id)) {
+          res.status(400).json(`You are not a member of ${room.name}`)
+        } else {
+          res.status(200).json({ msgs: room.mes })
+        }
+      }
+    })
+  }
+)
+
+router.get('/', (req, res) => {
+  Room.find()
+    .sort({
+      createdDate: -1
+    })
+    .then(rooms => {
+      if (!rooms) {
+        res.status(400).json('There is no rooms')
+      } else {
+        res.status(200).json(rooms)
+      }
+    })
+})
 
 module.exports = router
