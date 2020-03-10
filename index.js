@@ -17,7 +17,10 @@ app.use('/api/user', users)
 app.use('/api/room', rooms)
 
 mongoose
-  .connect(keys.mongoURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(keys.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
   .then(() => {
     console.log('Database connected')
   })

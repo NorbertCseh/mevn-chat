@@ -1,5 +1,5 @@
 module.exports = {
-  mongoURI:
+  MONGODB_URI:
     'Mongo db URL',
   secretOrKey: 'Key for passport-jwt(It can be anything)'
 }
