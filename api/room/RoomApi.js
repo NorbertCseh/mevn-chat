@@ -155,15 +155,17 @@ router.get(
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Room.findOne({
-      id: req.param.id
+      _id: req.params.room_id
     }).then(room => {
       if (!room) {
-        res.status(400).json('Room does not exists')
+        res.status(400).json({ Error: 'Room does not exists' })
       } else {
         if (!room.members.includes(req.user.id)) {
-          res.status(400).json(`You are not a member of ${room.name}`)
+          res
+            .status(400)
+            .json({ Error: `You are not a member of ${room.name}` })
         } else {
-          res.status(200).json({ msgs: room.mes })
+          res.status(200).json(room)
         }
       }
     })
