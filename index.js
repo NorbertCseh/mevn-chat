@@ -13,7 +13,6 @@ app.use(
   })
 )
 
-//Why do I need this, pls check it future Norbi
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 

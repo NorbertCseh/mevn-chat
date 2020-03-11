@@ -170,18 +170,22 @@ router.get(
   }
 )
 
-router.get('/', (req, res) => {
-  Room.find()
-    .sort({
-      createdDate: -1
-    })
-    .then(rooms => {
-      if (!rooms) {
-        res.status(400).json('There is no rooms')
-      } else {
-        res.status(200).json(rooms)
-      }
-    })
-})
+router.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    Room.find()
+      .sort({
+        createdDate: -1
+      })
+      .then(rooms => {
+        if (!rooms) {
+          res.status(400).json('There is no rooms')
+        } else {
+          res.status(200).json(rooms)
+        }
+      })
+  }
+)
 
 module.exports = router

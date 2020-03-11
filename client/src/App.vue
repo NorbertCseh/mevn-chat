@@ -2,12 +2,14 @@
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer" app clipped>
       <v-list dense>
-        <v-list-item link>
+        <v-list-item link to="/dashboard">
           <v-list-item-action>
             <v-icon>mdi-view-dashboard</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-title>Dashboard</v-list-item-title>
+            <v-list-item-title>
+              Dashboard
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item link>
@@ -25,11 +27,11 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>Application</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn>
-        <router-link to="/register">Register</router-link>
+      <v-btn to="/register">
+        Register
       </v-btn>
-      <v-btn>
-        <router-link to="/login">Login</router-link>
+      <v-btn to="/login">
+        Login
       </v-btn>
     </v-app-bar>
 
@@ -47,7 +49,7 @@
 
 <script>
 export default {
-  name: "App",
+  name: 'App',
 
   components: {},
   props: {
@@ -57,5 +59,5 @@ export default {
     drawer: null
   }),
   created() {}
-};
+}
 </script>
