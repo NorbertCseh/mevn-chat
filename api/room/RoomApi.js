@@ -48,19 +48,24 @@ router.put(
       if (!room) {
         res.status(400).json('There is no room like this WTF')
       } else {
-        if (room.members.includes(req.user._id)) {
-          res.status(400).json(`She/He is already member of ${room.name}`)
-        } else {
-          room.members.push(req.user._id)
-          room
-            .save()
-            .then(room => {
-              res
-                .status(200)
-                .json(`${req.user.displayName} added to ${room.name}`)
-            })
-            .catch(err => console.log('Error joining room: ' + err))
-        }
+        User.findOne({ displayName: req.body.name }).then(user => {
+          console.log(user)
+          if (room.members.includes(user._id)) {
+            res
+              .status(404)
+              .json({ msg: `She/He is already member of ${room.name}` })
+          } else {
+            room.members.push(user._id)
+            room
+              .save()
+              .then(room => {
+                res
+                  .status(200)
+                  .json(`${req.user.displayName} added to ${room.name}`)
+              })
+              .catch(err => console.log('Error joining room: ' + err))
+          }
+        })
       }
     })
   }

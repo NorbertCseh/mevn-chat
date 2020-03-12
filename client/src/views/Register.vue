@@ -56,7 +56,7 @@ export default {
         avataar: this.avatar
       })
         .then(res => {
-          res.status(201).json(res);
+          console.log(res);
           history.push("/dashboard");
         })
         .catch(err => {
