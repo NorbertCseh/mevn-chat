@@ -28,6 +28,11 @@ So far...
 - ~~Endpoint for register with encrypted pw~~
 - ~~Endpoint for user creation~~
 - Server side validation
+- Validate data on the ui
+- Add the token to every request and add the user to store
+- Populate users to rooms
+- Add every request to one file 
+- Display that your are not authenticated to view this page
 - ~~User can join twice to any room~~
 - Ask twice for passwords, on the UI and check them to be the same in the backend also
 - Delete and update for users
@@ -39,6 +44,6 @@ So far...
 
 ### Notes for me
 
-- Do I need this '/create-room', '/delete-room' paths? Method should be enough
+- ~~Do I need this '/create-room', '/delete-room' paths? Method should be enough~~ Nope
 - Roles would be nice to have for the rooms
 - Check the .populat part, I think we will need it later
