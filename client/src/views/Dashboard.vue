@@ -5,10 +5,10 @@
 </template>
 
 <script>
-import Rooms from '../components/Rooms'
+import Rooms from "../views/Rooms";
 export default {
   components: { Rooms }
-}
+};
 </script>
 
 <style></style>

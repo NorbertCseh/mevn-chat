@@ -1,27 +1,20 @@
 <template>
-  <div class="container">
-    <button>
-      <router-link to="/register">
-        Register
-      </router-link>
-    </button>
-    <button>
-      <router-link to="/login">
-        Login
-      </router-link>
-    </button>
-
-    <router-view></router-view>
+  <div>
+    <Navbar />
+    <div class="container is-fluid">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 
 <script>
+import Navbar from "./components/Navbar";
 export default {
-  name: 'App',
+  name: "App",
 
-  components: {},
+  components: { Navbar },
   props: {},
   data: () => ({}),
   created() {}
-}
+};
 </script>

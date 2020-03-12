@@ -10,7 +10,7 @@ router.get('/test', (req, res) => {
 })
 
 router.post(
-  '/create-room',
+  '/',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Room.findOne({
@@ -34,6 +34,7 @@ router.post(
                 .save()
                 .then(newRoom => {
                   res.status(201).json({
+                    _id: newRoom._id,
                     msg: `${newRoom.name} is created`
                   })
                 })
@@ -48,22 +49,22 @@ router.post(
   }
 )
 
-router.post(
-  '/join-room',
+router.put(
+  '/:room_id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Room.findOne({ name: req.body.name }).then(room => {
+    Room.findOne({ _id: req.params.room_id }).then(room => {
       if (!room) {
         res.status(400).json('Wrong room name or password')
       } else {
-        if (room.members.includes(req.user.id)) {
+        if (room.members.includes(req.user._id)) {
           res.status(400).json(`You are already member of ${room.name}`)
         } else {
           bcrypt.compare(req.body.password, room.password, (err, result) => {
             if (err) {
               res.status(400).json('Wrong room name or password')
             } else {
-              room.members.push(req.user.id)
+              room.members.push(req.user._id)
               room
                 .save()
                 .then(room => {
@@ -80,15 +81,20 @@ router.post(
   }
 )
 
-router.post(
-  '/edit-room/:room_id',
+router.put(
+  '/add-member/:room_id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
+    Room.findOne({ name: req.body.name })
+      .then(room =>
+        room ? res.status(400).json('Room name already taken') : null
+      )
+      .catch(err => console.log(err))
     Room.findOne({
-      id: req.param.room_id
+      _id: req.param.room_id
     }).then(room => {
-      if (!room.members.includes(req.user.id)) {
-        res.status(400).json('You dont have the permission to edit this room')
+      if (!room.members.includes(req.user._id)) {
+        res.status(400).json("You don't have the permission to edit this room")
       } else {
         bcrypt.compare(req.body.password, room.password, (err, result) => {
           if (err) {
@@ -117,13 +123,13 @@ router.post(
 )
 
 router.delete(
-  '/delete/:room_id',
+  '/:room_id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Room.findOne({
-      id: req.param.room_id
+      _id: req.param.room_id
     }).then(room => {
-      if (!room.id === req.user.id) {
+      if (!room.createdBy === req.user._id) {
         res
           .status(400)
           .json(

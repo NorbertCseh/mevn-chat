@@ -1,51 +1,61 @@
 <template>
-  <form>
-    <v-text-field label="email" tpye="email" v-model="email"></v-text-field>
-    <v-text-field
-      label="password"
-      type="password"
-      v-model="password"
-    ></v-text-field>
+  <section>
+    <div class="field">
+      <label class="label">Email</label>
+      <div class="control">
+        <input class="input" type="email" v-model="email" />
+      </div>
+    </div>
 
-    <v-btn class="mr-4" @click="sendLoginData()">submit</v-btn>
-    <v-btn>clear</v-btn>
-  </form>
+    <div class="field">
+      <label class="label">Password</label>
+      <div class="control">
+        <input class="input" type="password" v-model="password" />
+      </div>
+    </div>
+
+    <div class="field is-grouped">
+      <div class="control">
+        <button class="button is-dark" @click="sendLoginData">Submit</button>
+      </div>
+      <div class="control">
+        <button class="button is-danger">Clear</button>
+      </div>
+    </div>
+  </section>
 </template>
 
 <script>
-import Axios from 'axios'
-import jwt from 'jwt-decode'
-import setAuthToken from '../utils/setAuthToken'
+import Axios from "axios";
+import store from "../store/index";
 
 export default {
-  data: () => ({
-    email: '',
-    password: '',
-    isAuthenticated: false
-  }),
+  name: "Login",
+  components: {},
+  data: () => {
+    return {
+      email: "",
+      password: ""
+    };
+  },
   methods: {
     sendLoginData() {
-      Axios.post('http://localhost:3000/api/user/login', {
+      Axios.post("http://localhost:3000/api/user/login", {
         email: this.email,
         password: this.password
       })
         .then(res => {
-          const { token } = res.data
-          localStorage.setItem('jwtToken', token)
-          setAuthToken(token)
-          //Set isAuthenticated to true in the store
-          //deocec value should be the user, save it in the store
-
-          const decoded = jwt(token)
-          // After decode we should get the user data and add it to the store
-          console.log(decoded)
+          const { token } = res.data;
+          store.loggedIn(token);
+          console.log(store.state.isAuthenticated);
+          console.log(store.state.user);
         })
         .catch(err => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     }
   }
-}
+};
 </script>
 
 <style></style>

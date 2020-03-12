@@ -1,9 +1,9 @@
 <template>
-  <section>
+  <section v-if="$store.state.isAuthenticated">
     <div class="field">
-      <label class="label">Email</label>
+      <label class="label">Room name</label>
       <div class="control">
-        <input class="input" type="email" v-model="email" />
+        <input class="input" type="text" v-model="name" />
       </div>
     </div>
 
@@ -15,13 +15,7 @@
     </div>
 
     <div class="field">
-      <label class="label">Name</label>
-      <div class="control">
-        <input class="input" type="text" v-model="displayName" />
-      </div>
-    </div>
-    <div class="field">
-      <label class="label">Avatar URL</label>
+      <label class="label">Room avatar URL</label>
       <div class="control">
         <input class="input" type="url" v-model="avatar" />
       </div>
@@ -29,7 +23,7 @@
 
     <div class="field is-grouped">
       <div class="control">
-        <button class="button is-dark" @click="sendRegisrerData">Submit</button>
+        <button class="button is-dark" @click="sendRoomData">Submit</button>
       </div>
       <div class="control">
         <button class="button is-danger">Clear</button>
@@ -41,27 +35,27 @@
 <script>
 import Axios from "axios";
 export default {
-  data: () => ({
-    email: "",
-    password: "",
-    displayName: "",
-    avatar: ""
-  }),
+  name: "CreateRoom",
+  data: () => {
+    return {
+      name: "",
+      password: "",
+      avatar: "",
+      error: null
+    };
+  },
   methods: {
-    sendRegisrerData() {
-      Axios.post("http://localhost:3000/api/user/register", {
-        email: this.email,
+    sendRoomData() {
+      Axios.post("http://localhost:3000/api/room/", {
+        name: this.name,
         password: this.password,
-        displayName: this.displayName,
-        avataar: this.avatar
+        avatar: this.avatar
       })
         .then(res => {
           res.status(201).json(res);
-          history.push("/dashboard");
+          history.push(`/${res.data._id}`);
         })
-        .catch(err => {
-          console.log(err);
-        });
+        .catch(err => (this.error = err));
     }
   }
 };

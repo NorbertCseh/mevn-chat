@@ -5,6 +5,7 @@ import Register from '../views/Register.vue'
 import Dashboard from '../views/Dashboard.vue'
 import Room from '../views/Room.vue'
 import User from '../views/User.vue'
+import CreateRoom from '../views/CreateRoom'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,11 @@ const routes = [
     path: '/user/:user_id',
     name: 'User',
     component: User
+  },
+  {
+    path: '/create-room',
+    name: 'CreateRoom',
+    component: CreateRoom
   }
 ]
 
