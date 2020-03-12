@@ -45,8 +45,10 @@ export default {
         password: this.password
       })
         .then(res => {
-          const { token } = res.data;
-          store.loggedIn(token);
+          store.commit({
+            type: "loggedin",
+            token: res.data.token
+          });
           console.log(store.state.isAuthenticated);
           console.log(store.state.user);
         })

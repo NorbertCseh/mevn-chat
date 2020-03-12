@@ -3,26 +3,33 @@
 </template>
 
 <script>
-import Axios from 'axios'
+import Axios from "axios";
 export default {
   data() {
     return {
       room: null
-    }
+    };
   },
   methods: {
     loadRoom() {
-      Axios.get(`http://localhost:3000/api/room/${this.$route.params.room_id}`)
+      Axios.get(
+        `http://localhost:3000/api/room/${this.$route.params.room_id}`,
+        {
+          headers: {
+            Authorization: localStorage.getItem("jwtToken")
+          }
+        }
+      )
         .then(res => {
-          this.room = res.data
+          this.room = res.data;
         })
-        .catch(err => console.log(err))
+        .catch(err => console.log(err));
     }
   },
   mounted() {
-    this.loadRoom()
+    this.loadRoom();
   }
-}
+};
 </script>
 
 <style></style>

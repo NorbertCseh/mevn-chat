@@ -11,15 +11,15 @@ export default new Vuex.Store({
     user: null
   },
   mutations: {
-    loggedin(token) {
-      localStorage.setItem('jwtToken', token)
-      setAuthToken(token)
+    loggedin(state, token) {
+      localStorage.setItem('jwtToken', token.token)
+      setAuthToken(token.token)
       //Set isAuthenticated to true in the store
       //deocec value should be the user, save it in the store
 
-      const decoded = jwt(token)
-      this.user = decoded
-      this.isAuthenticated = !this.isAuthenticated
+      const decoded = jwt(token.token)
+      state.user = decoded
+      state.isAuthenticated = !this.isAuthenticated
     }
   },
   actions: {},

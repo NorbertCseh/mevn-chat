@@ -17,8 +17,7 @@
         </div>
 
         <div class="content">
-          <a href="#">#css</a>
-          <a href="#">#responsive</a>
+          <router-link :to="`/room/${room._id}`">Enter</router-link>
           <br />
           <time datetime="2016-1-1">{{room.createdDate}}</time>
         </div>

@@ -10,10 +10,6 @@ var RoomSchema = new Schema({
     type: [Schema.Types.ObjectId],
     ref: 'users'
   },
-  password: {
-    type: String,
-    required: true
-  },
   avatar: {
     type: String
   },

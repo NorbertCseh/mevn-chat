@@ -8,13 +8,6 @@
     </div>
 
     <div class="field">
-      <label class="label">Password</label>
-      <div class="control">
-        <input class="input" type="password" v-model="password" />
-      </div>
-    </div>
-
-    <div class="field">
       <label class="label">Room avatar URL</label>
       <div class="control">
         <input class="input" type="url" v-model="avatar" />
@@ -39,7 +32,6 @@ export default {
   data: () => {
     return {
       name: "",
-      password: "",
       avatar: "",
       error: null
     };
@@ -48,7 +40,6 @@ export default {
     sendRoomData() {
       Axios.post("http://localhost:3000/api/room/", {
         name: this.name,
-        password: this.password,
         avatar: this.avatar
       })
         .then(res => {
