@@ -31,7 +31,7 @@ So far...
 - Validate data on the ui
 - Add the token to every request and add the user to store
 - Populate users to rooms
-- Add every request to one file 
+- Add every request to one file
 - Display that your are not authenticated to view this page
 - ~~User can join twice to any room~~
 - Ask twice for passwords, on the UI and check them to be the same in the backend also
@@ -41,6 +41,7 @@ So far...
 - Add [socket.io](https://socket.io/) backend part
 - The whole frontend with vue and [socket.io](https://socket.io/)
 - Add logger instead of console.log and throw err
+- Display members of the room
 
 ### Notes for me
 

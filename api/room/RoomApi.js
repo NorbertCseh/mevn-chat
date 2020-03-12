@@ -3,6 +3,7 @@ const passport = require('passport')
 const router = express.Router()
 const Room = require('../../models/Room')
 const User = require('../../models/User')
+var cors = require('cors')
 
 router.get('/test', (req, res) => {
   res.status(200).json({ msg: 'Rooms works' })
@@ -49,21 +50,24 @@ router.put(
         res.status(400).json('There is no room like this WTF')
       } else {
         User.findOne({ displayName: req.body.name }).then(user => {
-          console.log(user)
-          if (room.members.includes(user._id)) {
-            res
-              .status(404)
-              .json({ msg: `She/He is already member of ${room.name}` })
+          if (!user) {
+            res.status(400).json('No user like this')
           } else {
-            room.members.push(user._id)
-            room
-              .save()
-              .then(room => {
-                res
-                  .status(200)
-                  .json(`${req.user.displayName} added to ${room.name}`)
-              })
-              .catch(err => console.log('Error joining room: ' + err))
+            if (room.members.includes(user._id)) {
+              res
+                .status(400)
+                .json({ msg: `She/He is already member of ${room.name}` })
+            } else {
+              room.members.push(user._id)
+              room
+                .save()
+                .then(room => {
+                  res
+                    .status(200)
+                    .json(`${req.user.displayName} added to ${room.name}`)
+                })
+                .catch(err => console.log('Error joining room: ' + err))
+            }
           }
         })
       }

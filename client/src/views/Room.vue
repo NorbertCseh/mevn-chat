@@ -7,6 +7,13 @@
             <strong>{{room.name}}</strong>
           </p>
         </div>
+      </div>
+
+      <!-- Right side -->
+      <div class="level-right">
+        <div class="level-item">
+          <button class="button is-primary">Edit room (Not working)</button>
+        </div>
         <div class="level-item">
           <div class="field has-addons">
             <p class="control">
@@ -18,37 +25,28 @@
           </div>
         </div>
       </div>
-
-      <!-- Right side -->
-      <div class="level-right">
-        <p class="level-item">
-          <strong>All</strong>
-        </p>
-        <p class="level-item">
-          <a>Published</a>
-        </p>
-        <p class="level-item">
-          <a>Drafts</a>
-        </p>
-        <p class="level-item">
-          <a>Deleted</a>
-        </p>
-        <p class="level-item">
-          <a class="button is-success">New</a>
-        </p>
-      </div>
     </nav>
-    {{room.members}}
+    <div class="container">
+      <ul id="messages"></ul>
+      <form action>
+        <input id="m" autocomplete="off" />
+        <button>Send</button>
+      </form>
+    </div>
   </section>
 </template>
 
 <script>
 import Axios from "axios";
+import * as socketIo from "socket.io-client";
+
 export default {
   data() {
     return {
       room: null,
-      newUser: ""
+      newUser: "",
+      members: [],
+      socket: socketIo("http://localhost:3000")
     };
   },
   methods: {
@@ -80,12 +78,58 @@ export default {
           console.log(res);
         })
         .catch(err => console.log(err));
+    },
+    chat() {
+      this.socket.on("hello", data => console.log(data));
     }
   },
   mounted() {
     this.loadRoom();
+    this.chat();
   }
 };
 </script>
 
-<style></style>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font: 13px Helvetica, Arial;
+}
+form {
+  background: #000;
+  padding: 3px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+form input {
+  border: 0;
+  padding: 10px;
+  width: 90%;
+  margin-right: 0.5%;
+}
+form button {
+  width: 9%;
+  background: rgb(130, 224, 255);
+  border: none;
+  padding: 10px;
+}
+#messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+#messages li {
+  padding: 5px 10px;
+}
+#messages li:nth-child(odd) {
+  background: #eee;
+}
+#messages {
+  margin-bottom: 40px;
+}
+</style>

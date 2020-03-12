@@ -1,6 +1,8 @@
 const express = require('express')
 var cors = require('cors')
 const app = express()
+const http = require('http')
+const socketIo = require('socket.io')
 const port = 3000
 const mongoose = require('mongoose')
 const keys = require('./config/keys')
@@ -40,4 +42,16 @@ require('./config/passport')(passport)
 
 app.get('/chat', (req, res) => res.send(''))
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+const server = http.Server(app)
+
+server.listen(port, () => console.log(`Example app listening on port ${port}!`))
+
+//Create socket for every room
+const io = socketIo(server)
+//connection -> when someone connects to the socket
+io.on('connection', socket => {
+  //Will to this when someone connects
+  socket.emit('hello', {
+    greeting: 'Hello Paul'
+  })
+})
