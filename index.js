@@ -5,7 +5,7 @@ const http = require('http')
 const socketIo = require('socket.io')
 const port = process.env.PORT || 3000
 const mongoose = require('mongoose')
-const keys = require('./config/keys')
+//const keys = require('./config/keys')
 const bodyParser = require('body-parser')
 const passport = require('passport')
 const serveStatic = require('serve-static')
@@ -26,7 +26,7 @@ app.use('/api/user', users)
 app.use('/api/room', rooms)
 
 mongoose
-  .connect(process.env.MONGODB_URI || keys.MONGODB_URI, {
+  .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
