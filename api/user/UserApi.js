@@ -76,7 +76,7 @@ router.post('/login', (req, res) => {
           }
           jwt.sign(
             payLoad,
-            keys.secretOrKey,
+            process.env.secretOrKey,
             {
               expiresIn: 3600
             },
