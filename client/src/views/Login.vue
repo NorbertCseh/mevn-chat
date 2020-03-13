@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     sendLoginData() {
-      Axios.post('http://127.0.0.1:3000/api/user/login', {
+      Axios.post('/api/user/login', {
         email: this.email,
         password: this.password
       })
