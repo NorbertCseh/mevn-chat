@@ -50,6 +50,9 @@ server.listen(port, () => console.log(`Example app listening on port ${port}!`))
 const io = socketIo(server)
 //connection -> when someone connects to the socket
 io.on('connection', socket => {
+  socket.on('chat message', msg => {
+    io.emit('chat message', msg)
+  })
   //Will to this when someone connects
   socket.emit('hello', {
     greeting: 'Hello Paul'

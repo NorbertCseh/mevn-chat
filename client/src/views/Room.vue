@@ -27,9 +27,9 @@
       </div>
     </nav>
     <div class="container">
-      <ul id="messages"></ul>
+      <ul id="messages" v-bind="messages"></ul>
       <form action>
-        <input id="m" autocomplete="off" />
+        <input id="m" autocomplete="off" v-model="message" />
         <button>Send</button>
       </form>
     </div>
@@ -46,7 +46,9 @@ export default {
       room: null,
       newUser: "",
       members: [],
-      socket: socketIo("http://localhost:3000")
+      socket: socketIo("http://localhost:3000"),
+      messages: [],
+      message: ""
     };
   },
   methods: {
@@ -81,11 +83,12 @@ export default {
     },
     chat() {
       this.socket.on("hello", data => console.log(data));
+      this.socket.emit("chat message", this.message);
+      this.message = "";
     }
   },
   mounted() {
     this.loadRoom();
-    this.chat();
   }
 };
 </script>

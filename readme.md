@@ -47,4 +47,4 @@ So far...
 
 - ~~Do I need this '/create-room', '/delete-room' paths? Method should be enough~~ Nope
 - Roles would be nice to have for the rooms
-- Check the .populat part, I think we will need it later
+- Check the .populate part, I think we will need it later
