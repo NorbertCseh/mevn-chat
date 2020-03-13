@@ -34,12 +34,7 @@
     <div class="container">
       <ul id="messages" v-bind="messages"></ul>
       <form action>
-        <input
-          id="m"
-          autocomplete="off"
-          v-model="message"
-          v-on:submit.prevent="onSubmit"
-        />
+        <input id="m" autocomplete="off" v-model="message" @submit.prevent />
         <button>Send</button>
       </form>
     </div>
