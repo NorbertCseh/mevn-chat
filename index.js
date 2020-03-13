@@ -12,7 +12,7 @@ const serveStatic = require('serve-static')
 
 app.use(
   cors({
-    origin: 'http://localhost:8080'
+    origin: 'http://localhost'
   })
 )
 
