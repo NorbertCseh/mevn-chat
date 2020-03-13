@@ -8,6 +8,7 @@ const mongoose = require('mongoose')
 const keys = require('./config/keys')
 const bodyParser = require('body-parser')
 const passport = require('passport')
+const serveStatic = require('serve-static')
 
 app.use(
   cors({
@@ -45,6 +46,8 @@ app.get('/chat', (req, res) => res.send(''))
 const server = http.Server(app)
 
 server.listen(port, () => console.log(`Example app listening on port ${port}!`))
+
+app.use(serveStatic(__dirname + '/client/dist'))
 
 //Create socket for every room
 const io = socketIo(server)
