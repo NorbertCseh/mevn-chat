@@ -26,38 +26,37 @@
 </template>
 
 <script>
-import Axios from "axios";
-import store from "../store/index";
+import Axios from 'axios'
+import store from '../store/index'
 
 export default {
-  name: "Login",
+  name: 'Login',
   components: {},
   data: () => {
     return {
-      email: "",
-      password: ""
-    };
+      email: '',
+      password: '',
+      err: ''
+    }
   },
   methods: {
     sendLoginData() {
-      Axios.post("http://localhost:3000/api/user/login", {
+      Axios.post('http://127.0.0.1:3000/api/user/login', {
         email: this.email,
         password: this.password
       })
         .then(res => {
           store.commit({
-            type: "loggedin",
+            type: 'loggedin',
             token: res.data.token
-          });
-          console.log(store.state.isAuthenticated);
-          console.log(store.state.user);
+          })
         })
         .catch(err => {
-          console.log(err);
-        });
+          this.err = err
+        })
     }
   }
-};
+}
 </script>
 
 <style></style>

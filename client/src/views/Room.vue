@@ -4,7 +4,7 @@
       <div class="level-left">
         <div class="level-item">
           <p class="subtitle is-5">
-            <strong>{{room.name}}</strong>
+            <strong>{{ room.name }}</strong>
           </p>
         </div>
       </div>
@@ -17,7 +17,12 @@
         <div class="level-item">
           <div class="field has-addons">
             <p class="control">
-              <input class="input" type="text" placeholder="Add user by name" v-model="newUser" />
+              <input
+                class="input"
+                type="text"
+                placeholder="Add user by name"
+                v-model="newUser"
+              />
             </p>
             <p class="control">
               <button class="button" @click="addUser(newUser)">Add</button>
@@ -37,19 +42,21 @@
 </template>
 
 <script>
-import Axios from "axios";
-import * as socketIo from "socket.io-client";
+import Axios from 'axios'
+import * as socketIo from 'socket.io-client'
 
 export default {
   data() {
     return {
       room: null,
-      newUser: "",
+      newUser: '',
       members: [],
-      socket: socketIo("http://localhost:3000"),
+      socket: socketIo('http://localhost:3000'),
       messages: [],
-      message: ""
-    };
+      message: '',
+      res: '',
+      err: ''
+    }
   },
   methods: {
     loadRoom() {
@@ -57,14 +64,14 @@ export default {
         `http://localhost:3000/api/room/${this.$route.params.room_id}`,
         {
           headers: {
-            Authorization: localStorage.getItem("jwtToken")
+            Authorization: localStorage.getItem('jwtToken')
           }
         }
       )
         .then(res => {
-          this.room = res.data;
+          this.room = res.data
         })
-        .catch(err => console.log(err));
+        .catch(err => (this.err = err))
     },
     addUser(newUser) {
       Axios.put(
@@ -72,25 +79,25 @@ export default {
         { name: newUser },
         {
           headers: {
-            Authorization: localStorage.getItem("jwtToken")
+            Authorization: localStorage.getItem('jwtToken')
           }
         }
       )
         .then(res => {
-          console.log(res);
+          this.res = res
         })
-        .catch(err => console.log(err));
+        .catch(err => (this.err = err))
     },
     chat() {
-      this.socket.on("hello", data => console.log(data));
-      this.socket.emit("chat message", this.message);
-      this.message = "";
+      this.socket.on('hello', data => (this.res = data))
+      this.socket.emit('chat message', this.message)
+      this.message = ''
     }
   },
   mounted() {
-    this.loadRoom();
+    this.loadRoom()
   }
-};
+}
 </script>
 
 <style>
