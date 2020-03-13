@@ -9,6 +9,9 @@ var MessageSchema = new Schema({
   room: {
     type: Schema.type.Room
   },
+  messages: {
+    type: [String]
+  },
   createdDate: {
     type: Date,
     default: Date.now
