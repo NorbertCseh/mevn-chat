@@ -51,6 +51,7 @@ app.use(serveStatic(__dirname + '/client/dist'))
 
 //Create socket for every room
 const io = socketIo(server)
+io.path('/test')
 //connection -> when someone connects to the socket
 io.on('connection', socket => {
   socket.on('chat message', msg => {

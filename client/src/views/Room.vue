@@ -51,7 +51,7 @@ export default {
       room: null,
       newUser: '',
       members: [],
-      socket: socketIo('http://localhost:3000'),
+      socket: socketIo('/test'), //change this
       messages: [],
       message: '',
       res: '',
@@ -60,14 +60,11 @@ export default {
   },
   methods: {
     loadRoom() {
-      Axios.get(
-        `http://localhost:3000/api/room/${this.$route.params.room_id}`,
-        {
-          headers: {
-            Authorization: localStorage.getItem('jwtToken')
-          }
+      Axios.get(`/api/room/${this.$route.params.room_id}`, {
+        headers: {
+          Authorization: localStorage.getItem('jwtToken')
         }
-      )
+      })
         .then(res => {
           this.room = res.data
         })

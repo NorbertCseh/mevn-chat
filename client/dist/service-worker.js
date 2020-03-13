@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.ec495bc86caa57eef8e7bbcda0109ef9.js"
+  "/precache-manifest.6e6a70946bcde747ce40f68d533069f7.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "Idiots"});
