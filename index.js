@@ -26,7 +26,7 @@ app.use('/api/user', users)
 app.use('/api/room', rooms)
 
 mongoose
-  .connect(keys.MONGODB_URI, {
+  .connect(process.env.MONGODB_URI || keys.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
