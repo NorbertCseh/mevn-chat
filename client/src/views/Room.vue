@@ -51,7 +51,7 @@ export default {
       room: null,
       newUser: '',
       members: [],
-      socket: socketIo(),
+      socket: socketIo(':3000/test'),
       messages: [],
       message: '',
       res: '',
