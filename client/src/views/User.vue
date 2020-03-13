@@ -16,7 +16,7 @@ export default {
   },
   methods: {
     loadUserData() {
-      Axios.get(`http://localhost:3000/api/room/${this.$route.params.user_id}`)
+      Axios.get(`/api/room/${this.$route.params.user_id}`)
         .then((req, res) => {
           this.user = res.data
         })

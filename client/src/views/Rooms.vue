@@ -40,7 +40,7 @@ export default {
 
   methods: {
     loadRooms() {
-      Axios.get('http://localhost:3000/api/room/', {
+      Axios.get('/api/room/', {
         headers: {
           Authorization: localStorage.getItem('jwtToken')
         }

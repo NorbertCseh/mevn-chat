@@ -26,30 +26,30 @@
 </template>
 
 <script>
-import Axios from "axios";
+import Axios from 'axios'
 export default {
-  name: "CreateRoom",
+  name: 'CreateRoom',
   data: () => {
     return {
-      name: "",
-      avatar: "",
+      name: '',
+      avatar: '',
       error: null
-    };
+    }
   },
   methods: {
     sendRoomData() {
-      Axios.post("http://localhost:3000/api/room/", {
+      Axios.post('/api/room/', {
         name: this.name,
         avatar: this.avatar
       })
         .then(res => {
-          res.status(201).json(res);
-          history.push(`/${res.data._id}`);
+          res.status(201).json(res)
+          history.push(`/${res.data._id}`)
         })
-        .catch(err => (this.error = err));
+        .catch(err => (this.error = err))
     }
   }
-};
+}
 </script>
 
 <style></style>

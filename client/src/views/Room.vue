@@ -75,7 +75,7 @@ export default {
     },
     addUser(newUser) {
       Axios.put(
-        `http://localhost:3000/api/room/add-member/${this.room._id}`,
+        `/api/room/add-member/${this.room._id}`,
         { name: newUser },
         {
           headers: {

@@ -39,32 +39,34 @@
 </template>
 
 <script>
-import Axios from "axios";
+import Axios from 'axios'
 export default {
   data: () => ({
-    email: "",
-    password: "",
-    displayName: "",
-    avatar: ""
+    email: '',
+    password: '',
+    displayName: '',
+    avatar: '',
+    res: '',
+    err: ''
   }),
   methods: {
     sendRegisrerData() {
-      Axios.post("http://localhost:3000/api/user/register", {
+      Axios.post('/api/user/register', {
         email: this.email,
         password: this.password,
         displayName: this.displayName,
         avataar: this.avatar
       })
         .then(res => {
-          console.log(res);
-          history.push("/dashboard");
+          this.res = res
+          history.push('/dashboard')
         })
         .catch(err => {
-          console.log(err);
-        });
+          this.err = err
+        })
     }
   }
-};
+}
 </script>
 
 <style></style>
