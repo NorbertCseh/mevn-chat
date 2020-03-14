@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{error}}
     <div class="card" v-for="room in rooms" :key="room._id">
       <div class="card-content">
         <div class="media">
@@ -28,39 +29,43 @@
 </template>
 
 <script>
-import Axios from 'axios'
+import Axios from "axios";
 
 export default {
   data() {
     return {
-      rooms: null,
-      errors: ''
-    }
+      rooms: [],
+      error: ""
+    };
   },
 
   methods: {
     loadRooms() {
-      Axios.get('/api/room/', {
+      Axios.get("/api/room/", {
         headers: {
-          Authorization: localStorage.getItem('jwtToken')
+          Authorization: localStorage.getItem("jwtToken")
         }
       })
         .then(rooms => {
           if (!rooms) {
-            this.rooms = 'There are no rooms'
+            this.rooms = "There are no rooms";
           } else {
-            this.rooms = rooms.data
+            rooms.data.forEach(element => {
+              this.rooms.push(element);
+            });
+
+            this.rooms = rooms.data;
           }
         })
         .catch(err => {
-          this.errors = err
-        })
+          this.error = err.response.data;
+        });
     }
   },
   mounted() {
-    this.loadRooms()
+    this.loadRooms();
   }
-}
+};
 </script>
 
 <style></style>

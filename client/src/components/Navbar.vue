@@ -53,6 +53,12 @@
             >Dashboard</router-link>
 
             <router-link
+              to="/create-room"
+              class="navbar-item button is-primary"
+              v-show="$store.state.isAuthenticated"
+            >Fuck me</router-link>
+
+            <router-link
               to="/register"
               class="button is-primary"
               v-show="!$store.state.isAuthenticated"
@@ -73,9 +79,7 @@
 
 <script>
 export default {
-  data: () => {
-    return {};
-  },
+  data: () => {},
   methods: {
     hamburger() {
       // Get all "navbar-burger" elements

@@ -48,17 +48,3 @@ const server = http.Server(app)
 server.listen(port, () => console.log(`Example app listening on port ${port}!`))
 
 app.use(serveStatic(__dirname + '/client/dist'))
-
-//Create socket for every room
-const io = socketIo(server)
-io.path('/test')
-//connection -> when someone connects to the socket
-io.on('connection', socket => {
-  socket.on('chat message', msg => {
-    io.emit('chat message', msg)
-  })
-  //Will to this when someone connects
-  socket.emit('hello', {
-    greeting: 'Hello Paul'
-  })
-})

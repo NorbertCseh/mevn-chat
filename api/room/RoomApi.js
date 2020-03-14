@@ -3,41 +3,45 @@ const passport = require('passport')
 const router = express.Router()
 const Room = require('../../models/Room')
 const User = require('../../models/User')
-var cors = require('cors')
-
-router.get('/test', (req, res) => {
-  res.status(200).json({ msg: 'Rooms works' })
-})
+const validator = require('validator')
 
 router.post(
-  '/',
+  '/create-room',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Room.findOne({
-      name: req.body.name
-    }).then(room => {
-      if (room) {
-        res.status(400).json({ msg: 'Room with the same name already exists' })
-      } else {
-        newRoom = new Room({
-          name: req.body.name,
-          avatar: req.body.avatar,
-          createdBy: req.user.id,
-          members: [req.user.id]
-        })
-        newRoom
-          .save()
-          .then(newRoom => {
-            res.status(201).json({
-              _id: newRoom._id,
-              msg: `${newRoom.name} is created`
+    if (validator.isEmpty(req.body.name)) {
+      res.status(400).json({ Error: 'Name cannot be empty' })
+    } else if (validator.isEmpty(req.user.id)) {
+      res.status(400).json({ Error: 'You are not logged in' })
+    } else {
+      Room.findOne({
+        name: req.body.name
+      }).then(room => {
+        if (room) {
+          res.status(400).json({ Error: 'Name already exists' })
+        } else {
+          newRoom = new Room({
+            name: req.body.name,
+            avatar: validator.isURL(req.body.avatar)
+              ? req.body.avatar
+              : 'https://www.hotukdeals.com/assets/img/profile-placeholder_f56af.png',
+            createdBy: req.user.id,
+            members: [req.user.id]
+          })
+          newRoom
+            .save()
+            .then(newRoom => {
+              res.status(201).json({
+                _id: newRoom._id,
+                msg: `${newRoom.name} is created`
+              })
             })
-          })
-          .catch(err => {
-            console.log(`Error at creating room: ${err}`)
-          })
-      }
-    })
+            .catch(err => {
+              res.status(400).json({ Error: err })
+            })
+        }
+      })
+    }
   }
 )
 
@@ -45,50 +49,57 @@ router.put(
   '/add-member/:room_id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
-    Room.findOne({ _id: req.params.room_id }).then(room => {
-      if (!room) {
-        res.status(400).json('There is no room like this WTF')
-      } else {
-        User.findOne({ displayName: req.body.name }).then(user => {
-          if (!user) {
-            res.status(400).json('No user like this')
-          } else {
-            if (room.members.includes(user._id)) {
-              res
-                .status(400)
-                .json({ msg: `She/He is already member of ${room.name}` })
+    if (validator.isEmpty(req.body.displayName)) {
+      res.status(400).json({ Error: 'Field cannot be empty' })
+    } else {
+      Room.findOne({ _id: req.params.room_id }).then(room => {
+        if (!room) {
+          res.status(400).json({ Error: 'There is no room like this WTF' })
+        } else {
+          User.findOne({ displayName: req.body.name }).then(user => {
+            if (!user) {
+              res.status(400).json({ Error: 'No user like this' })
             } else {
-              room.members.push(user._id)
-              room
-                .save()
-                .then(room => {
-                  res
-                    .status(200)
-                    .json(`${req.user.displayName} added to ${room.name}`)
-                })
-                .catch(err => console.log('Error joining room: ' + err))
+              if (room.members.includes(user._id)) {
+                res
+                  .status(400)
+                  .json({ Error: `She/He is already member of ${room.name}` })
+              } else {
+                room.members.push(user._id)
+                room
+                  .save()
+                  .then(room => {
+                    res
+                      .status(200)
+                      .json(`${req.user.displayName} added to ${room.name}`)
+                  })
+                  .catch(err => res.status(400).json({ Error: err }))
+              }
             }
-          }
-        })
-      }
-    })
+          })
+        }
+      })
+    }
   }
 )
 
-router.put(
-  '/:room_id',
+//Should send back the data that the room already have and display it
+router.post(
+  '/edit-room/:room_id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Room.findOne({ name: req.body.name })
       .then(room =>
-        room ? res.status(400).json('Room name already taken') : null
+        room ? res.status(400).json({ Error: 'Room name already taken' }) : null
       )
       .catch(err => console.log(err))
     Room.findOne({
       _id: req.param.room_id
     }).then(room => {
       if (!room.members.includes(req.user._id)) {
-        res.status(400).json("You don't have the permission to edit this room")
+        res
+          .status(400)
+          .json({ Error: "You don't have the permission to edit this room" })
       } else {
         room = {
           name: req.body.name,
@@ -102,7 +113,7 @@ router.put(
             res.status(200).json(`${room.name} was successfully edited`)
           })
           .catch(err => {
-            console.log(`Error editing room: ${err}`)
+            res.status(400).json({ Error: err })
           })
       }
     })
@@ -110,7 +121,7 @@ router.put(
 )
 
 router.delete(
-  '/:room_id',
+  '/delete-room/:room_id',
   passport.authenticate('jwt', { session: false }),
   (req, res) => {
     Room.findOne({
@@ -126,10 +137,10 @@ router.delete(
         room
           .remove()
           .then(() => {
-            res.status(200).json('Room successfully deleted')
+            res.status(200).json({ msg: 'Room successfully deleted' })
           })
           .catch(err => {
-            console.log(`Error deleting room: ${err}`)
+            res.status(400).json({ Error: err })
           })
       }
     })
@@ -150,7 +161,6 @@ router.get(
           res
             .status(400)
             .json({ Error: `You are not a member of ${room.name}` })
-          console.log('hit')
         } else {
           res.status(200).json(room)
         }
@@ -168,10 +178,16 @@ router.get(
         createdDate: -1
       })
       .then(rooms => {
-        if (!rooms) {
-          res.status(400).json('There is no rooms')
+        let joinedRooms = []
+        rooms.forEach(element => {
+          if (element.members.includes(req.user._id)) {
+            joinedRooms.push(element)
+          }
+        })
+        if (joinedRooms.length === 0) {
+          res.status(400).json({ Error: "You don't have any rooms" })
         } else {
-          res.status(200).json(rooms)
+          res.status(200).json(joinedRooms)
         }
       })
   }

@@ -52,7 +52,7 @@ router.post('/register', (req, res) => {
               .then(user => {
                 res.status(201).json({ msg: `${user.displayName} register` })
               })
-              .catch(err => console.log(err))
+              .catch(err => res.json(err))
           }
         })
       })
@@ -82,7 +82,7 @@ router.post('/login', (req, res) => {
             },
             (err, token) => {
               if (err) {
-                throw err
+                res.json(err)
               } else {
                 res.status(200).json({
                   success: true,

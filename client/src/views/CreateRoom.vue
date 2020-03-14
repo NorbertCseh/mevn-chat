@@ -1,5 +1,5 @@
 <template>
-  <section v-if="$store.state.isAuthenticated">
+  <section v-if="$store.state.isAuthenticated" @submit="sendRoomData">
     <div class="field">
       <label class="label">Room name</label>
       <div class="control">
@@ -22,31 +22,37 @@
         <button class="button is-danger">Clear</button>
       </div>
     </div>
+    <div>
+      {{ error }}
+    </div>
   </section>
 </template>
 
 <script>
 import Axios from 'axios'
+//import router from 'vue-router'
+
 export default {
   name: 'CreateRoom',
   data: () => {
     return {
       name: '',
       avatar: '',
-      error: null
+      error: null,
+      res: null
     }
   },
   methods: {
     sendRoomData() {
-      Axios.post('/api/room/', {
+      Axios.post('/api/room/create-room', {
         name: this.name,
         avatar: this.avatar
       })
         .then(res => {
-          res.status(201).json(res)
-          history.push(`/${res.data._id}`)
+          this.res = res.data.msg
+          this.$router.push({ path: `/room/${res.data._id}` })
         })
-        .catch(err => (this.error = err))
+        .catch(err => (this.error = err.response.data))
     }
   }
 }

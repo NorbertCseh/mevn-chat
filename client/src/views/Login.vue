@@ -22,41 +22,46 @@
         <button class="button is-danger">Clear</button>
       </div>
     </div>
+    <div class="container">
+      {{ err }}
+      {{ res }}
+    </div>
   </section>
 </template>
 
 <script>
-import Axios from 'axios'
-import store from '../store/index'
+import Axios from "axios";
+import store from "../store/index";
 
 export default {
-  name: 'Login',
+  name: "Login",
   components: {},
   data: () => {
     return {
-      email: '',
-      password: '',
-      err: ''
-    }
+      email: "",
+      password: "",
+      err: null,
+      res: null
+    };
   },
   methods: {
     sendLoginData() {
-      Axios.post('/api/user/login', {
+      Axios.post("/api/user/login", {
         email: this.email,
         password: this.password
       })
         .then(res => {
           store.commit({
-            type: 'loggedin',
+            type: "loggedin",
             token: res.data.token
-          })
+          });
         })
         .catch(err => {
-          this.err = err
-        })
+          this.err = err.response.data;
+        });
     }
   }
-}
+};
 </script>
 
 <style></style>
